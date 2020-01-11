@@ -1,12 +1,48 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+    <!-- Medium Editor -->
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'blog/blog.css' %">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
 </head>
 <body>
     
+    <nav class="navbar navbar-light">
+        <div class="container">
+            <ul class="navbar-nav">
+                <li><a href="{% url 'post_list' %}" class="navbar-brand">Blog</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="https://www.github.com">Github</a></li>
+                <li><a href="https://www.linkedin.com">LinkedIn</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'post_new' %}">Post New</a></li>
+                    <li><a href="{% url 'post_draft_list' %}">Drafts</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li>Welcome: {{user.username}}</li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container content">
+            {% block content %}
+            {% endblock %}
+    </div>
+
 </body>
 </html>

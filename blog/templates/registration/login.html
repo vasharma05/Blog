@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 
+{% block content %}
 <div class="jumbotron">
     <h1>Please Login to your account:</h1>
     <h3>(Must be a Superuser)</h3>
@@ -10,9 +11,11 @@
 
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
-        {% form.as_p %}
+        {{ form.as_p }}
         <input type="submit" class="btn btn-primary" value="Submit">
         <input type="hidden" name="next" value="{{next}}">
     </form>
 
 </div>
+
+{% endblock %}

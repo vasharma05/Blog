@@ -5,7 +5,7 @@ from blog.forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 # Create your views here.
 
 class AboutView(TemplateView):
@@ -58,6 +58,7 @@ def post_publish(request, pk):
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
+        form = CommentForm(request.POST)
         comment = Comment(request.POST)
         if form.is_valid():
             comment = form.save(commit = False)
@@ -67,7 +68,7 @@ def add_comment_to_post(request, pk):
     else:
         form = CommentForm()
     
-    return render(request, 'comment_form.html', context={'form': form})
+    return render(request, 'blog/comment_form.html', context={'form': form})
 
 @login_required
 def comment_approve(request, pk):
