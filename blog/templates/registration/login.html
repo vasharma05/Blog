@@ -1,10 +1,8 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="jumbotron">
-    <h1>Please Login to your account:</h1>
-    <h3>(Must be a Superuser)</h3>
-
+<div class="login-box">
+    <h1>Login</h1>
     {% if form.errors %}
     <p>Credentials didn't match!</p>
     {% endif %}
@@ -12,7 +10,7 @@
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" class="btn btn-primary" value="Submit">
+        <button type="submit" class="button secondary-button success-button"><span class="fill"></span><span class="button-text">Submit</span></button>
         <input type="hidden" name="next" value="{{next}}">
     </form>
 

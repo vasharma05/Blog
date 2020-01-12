@@ -1,11 +1,11 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <h1>Create new Post</h1>
+    <h1>Let the fingers do their work!</h1>
     <form class="post-form" method="post">
         {% csrf_token %}
         {{form.as_p}}
-        <input type="submit" class="save btn btn-default" value="Save">
+        <button class="button secondary-button success-button"><span class="fill"></span><span class="button-text">Save</span></button>
     </form>
 
     <script>

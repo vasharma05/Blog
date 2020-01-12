@@ -1,35 +1,38 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <h1 class="post-title">{{ post.title }}</h1>
+    <h1 class="post-title radius-8">{{ post.title }}</h1>
     {% if post.published_date %}
         <p class="date">Published On: {{post.published_date}}</p>
-    {% else %}
-        <a href="{% url 'post_publish' pk=post.pk %}" class="btn btn-primary">Publish</a>
     {% endif %}
 
-    <p class="postcontent">{{post.text|safe|linebreaks}}</p>
+    <div class='post-content radius-8'><p>{{post.text|safe|linebreaks}}</p></div>
 
     {% if user.is_authenticated %}
-        <a href="{% url 'post_edit' pk=post.pk %}" class="btn btn-primary">Edit</a>
-        <a href="{% url 'post_remove' pk=post.pk %}" class="btn btn-primary">Remove</a>
+        {% if not post.published_date %}
+            <a href="{% url 'post_publish' pk=post.pk %}" class="button success-button"><span class="fill"></span><span class="button-text">Publish</span></a>
+        {% endif %}    
+        <a href="{% url 'post_edit' pk=post.pk %}" class="button primary-button"><span class='fill'></span><span class="button-text">Edit</span></a>
+        <a href="{% url 'post_remove' pk=post.pk %}" class="button danger-button"><span class="fill"></span><span class="button-text">Remove</span></a>
     {% endif %}
 
     <hr>
 
-    <a href="{% url 'add_comment_to_post' pk=post.pk %}" class="btn btn-primary btn-comment">Add Comment</a>
+    <a href="{% url 'add_comment_to_post' pk=post.pk %}" class="button primary-button"><span class="fill"></span><span class="button-text">Add Comment</span></a>
+    <br/>
+    <br/>
 
     <div class="container">
         {% for comment in post.comments.all %}
             {% if user.is_authenticated or comment.approved_comment %}
-                {{comment.created_date}}
-                {% if not comment.approved_comment %}
-                    <a href="{% url 'comment_approve' pk=comment.pk %}" class="btn btn-default">Approve</a>
-                    <a href="{% url 'comment_remove' pk=comment.pk %}" class="btn btn-primary">Remove</a> 
-                {% endif %}
-
-                <p>{{comment.text|safe|linebreaks}}</p>
-                <p>Posted By: {{comment.author}}</p>
+                <div class="comment radius-4">
+                    <h5>@{{comment.author}} <span class="muted">{{comment.created_date}}</span> </h5>
+                    <h6>{{comment.text|safe}}</h6>
+                    {% if not comment.approved_comment %}
+                        <a href="{% url 'comment_approve' pk=comment.pk %}" class="primary-button secondary-button radius-8"><span class="fill"></span><span class="button-text">Approve</span></a>
+                        <a href="{% url 'comment_remove' pk=comment.pk %}" class="danger-button secondary-button radius-8"><span class="fill"></span><span class="button-text">Remove</span></a> 
+                    {% endif %}
+                </div>
             {% endif %}
             {% empty %}
             <p>No Comments</p>

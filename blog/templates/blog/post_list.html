@@ -3,12 +3,23 @@
 
 {% for post in post_list %}
     <div class="post">
-        <h2><a href="{% url 'post_detail' pk=post.pk %}">{{post.title}}</a></h2>
+        <h2><a href="{% url 'post_detail' pk=post.pk%}">{{post.title}}</a></h2>
+        <h6>Posted By @{{ post.author }}</h6>
+        Comments: {{ post.approve_comment.count }}
+        <div class="muted" style="margin-top: 12px;">
+            <p>Published On {{post.published_date|date:"D d M Y"}}</p>
+        </div>
     </div>
-    <div class="date">
-        <p>{{post.published_date|date:"d-m-y"}}</p>
-    </div>
-    <a href="{% url 'post_detail' pk=post.pk%}">Comments: {{ post.approve_comment.count }}</a>
 {% endfor %}
+
+    <script>
+            var border_color = ['#4deeea', '#74ee15', '#74ee15', '#f000ff', '#001eff'];
+            var posts = document.getElementsByClassName('post');
+            for(i=0; i<posts.length; i++){
+                var color = Math.floor(Math.random()*5);
+                console.log(posts[i]);
+                posts[i].style.borderColor = border_color[color];
+            }
+    </script>
 
 {% endblock %}
